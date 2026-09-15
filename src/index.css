@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
+@import 'tailwindcss';
+
+:root {
+  --ivory: #f3f0ea;
+  --ink: #111111;
+  --charcoal: #292929;
+  --stone: #aaa59c;
+  --plum: #1c1215;
+}
+
+@theme {
+  --color-ivory: #f3f0ea;
+  --color-ink: #111111;
+  --color-charcoal: #292929;
+  --color-stone: #aaa59c;
+  --color-plum: #1c1215;
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-hei: 'Noto Sans SC', 'Archivo', sans-serif;
+  --font-song: 'Noto Serif SC', serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: 'Archivo', 'Noto Sans SC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+/* Hide scrollbars until scrolling */
+html {
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Scroll-reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1400ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+.logo-in {
+  animation: logoIn 1500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes nuum-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes branchSway {
+  0% {
+    transform: rotate(-1.1deg) translateX(-4px);
+  }
+  50% {
+    transform: rotate(1.4deg) translateX(5px);
+  }
+  100% {
+    transform: rotate(-1.1deg) translateX(-4px);
+  }
+}
+.branch-sway {
+  transform-origin: 72% 100%;
+  animation: branchSway 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes nuum-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes scrollHint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.9;
+  }
+}
+.scroll-hint {
+  animation: scrollHint 2600ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .logo-in,
+  .scroll-hint,
+  .branch-sway {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

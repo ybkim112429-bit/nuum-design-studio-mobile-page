@@ -1,0 +1,18 @@
+.nuum-philosophy{position:relative;isolation:isolate;min-height:100svh;overflow:hidden;background:#637875;color:#152725;display:flex;align-items:center;padding:clamp(90px,14vh,150px) 6%;}
+.nuum-scene{position:absolute;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.nuum-scene>img{position:absolute;width:100%;height:100%;object-fit:cover;inset:0}
+.nuum-branch{transform-origin:100% 8%;animation:nuum-wind 7s ease-in-out infinite}
+.nuum-shadow{opacity:.45;animation:nuum-shadow-wind 7s ease-in-out infinite}
+.nuum-floor-light{position:absolute;inset:58% 0 0;background:radial-gradient(ellipse at 55% 50%,#eef9f32b,transparent 65%);mix-blend-mode:screen;animation:nuum-reflect 9s ease-in-out infinite}
+.nuum-philosophy-copy{width:min(100%,460px);margin-left:auto;padding:26px 18px;background:linear-gradient(110deg,#f2f2eacd,#eef0e4a6);}
+.nuum-statement+.nuum-statement{margin-top:38px}.nuum-copy-label{font-size:12px;letter-spacing:.12em;margin:0 0 12px}.nuum-statement h2{font-size:clamp(22px,5.8vw,32px);font-weight:400;line-height:1.5;margin:0 0 12px}.nuum-copy-en{font-size:11px;letter-spacing:.09em;line-height:1.8;margin:0}
+.nuum-rain-pair{position:absolute;top:77%;width:1px;height:1px}.nuum-raindrop{position:absolute;width:1px;height:14px;background:#e8f6eb9c;animation:nuum-fall 4.8s linear infinite;animation-delay:inherit}.nuum-ring{position:absolute;width:44px;height:12px;border:1px solid #edf8ed80;border-radius:50%;left:-22px;animation:nuum-ripple 4.8s ease-out infinite;animation-delay:inherit}.nuum-rain-pair>*{animation-delay:inherit}
+.nuum-stone-drop{position:absolute;left:68%;top:65%;width:1px;height:1px}.nuum-stone-drop i{position:absolute;width:3px;height:5px;background:#e8f4efd9;border-radius:50%;animation:nuum-drip 4s ease-in infinite}.nuum-stone-drop b{position:absolute;top:70px;left:-18px;width:36px;height:10px;border:1px solid #d7eeea80;border-radius:50%;animation:nuum-drip-ring 4s ease-out infinite}
+@keyframes nuum-wind{0%,100%{transform:rotate(0)}50%{transform:rotate(-.8deg) translate(-2px,2px)}}
+@keyframes nuum-shadow-wind{0%,100%{transform:translate(0);opacity:.4}50%{transform:translate(-4px,3px);opacity:.5}}
+@keyframes nuum-reflect{50%{transform:translate(3%,2%) scale(1.06);opacity:.45}}
+@keyframes nuum-fall{0%,65%,100%{opacity:0;transform:translateY(-400px)}66%{opacity:.6;transform:translateY(-400px)}78%{opacity:.6;transform:translateY(-14px)}79%,99%{opacity:0;transform:translateY(0)}}
+@keyframes nuum-ripple{0%,78%{opacity:0;transform:scale(.15)}80%{opacity:.6;transform:scale(.2)}99%,100%{opacity:0;transform:scale(1.6)}}
+@keyframes nuum-drip{0%,25%{opacity:0;transform:scale(.2)}50%{opacity:.7;transform:scale(1)}62%{opacity:.7;transform:translateY(68px)}63%,100%{opacity:0;transform:translateY(70px)}}
+@keyframes nuum-drip-ring{0%,62%{opacity:0;transform:scale(.2)}64%{opacity:.65;transform:scale(.3)}95%,100%{opacity:0;transform:scale(1.7)}}
+@media(prefers-reduced-motion:reduce){.nuum-scene *{animation:none!important}.nuum-rain-pair,.nuum-stone-drop{display:none}}

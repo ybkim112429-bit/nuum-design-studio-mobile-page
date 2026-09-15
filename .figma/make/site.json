@@ -1,0 +1,11 @@
+{
+  "title": "NUUM DESIGN STUDIO",
+  "description": "NUUM Design Studio mobile portfolio and selected work.",
+  "robots": {
+    "index": true
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
