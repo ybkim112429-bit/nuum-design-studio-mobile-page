@@ -5,8 +5,8 @@ import trackSrc from "@/imports/Marble_and_Evening_Air.mp3";
  * AMBIENT SOUND · quiet lounge control
  * Drop a high-end lounge / neo-soul / jazz-hiphop instrumental at
  *   public/audio/lounge-bgm.mp3
- * (any looping .mp3 works). Playback is gesture-started, low volume,
- * fades in — never autoplays loudly. Kept as restrained as the rest.
+ * (any looping .mp3 works). Playback starts enabled at low volume and
+ * falls back to the first user gesture when a browser blocks autoplay.
  * ------------------------------------------------------------------ */
 
 const SRC = trackSrc;
@@ -14,10 +14,11 @@ const TARGET_VOL = 0.32;
 
 export default function SoundControl() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [ready, setReady] = useState(false);
   const [missing, setMissing] = useState(false);
   const fadeRef = useRef<number | null>(null);
+  const wantsSoundRef = useRef(true);
 
   const fadeTo = (to: number, done?: () => void) => {
     const a = audioRef.current;
@@ -40,9 +41,11 @@ export default function SoundControl() {
     const a = audioRef.current;
     if (!a) return;
     if (playing) {
+      wantsSoundRef.current = false;
       fadeTo(0, () => a.pause());
       setPlaying(false);
     } else {
+      wantsSoundRef.current = true;
       try {
         a.volume = 0;
         await a.play();
@@ -57,22 +60,53 @@ export default function SoundControl() {
   useEffect(() => {
     const a = audioRef.current;
     if (!a) return;
+
+    const unlockEvents = ["pointerdown", "touchstart", "keydown"] as const;
+    const removeUnlockListeners = () => {
+      unlockEvents.forEach((event) =>
+        window.removeEventListener(event, startPlayback)
+      );
+    };
+    const startPlayback = async () => {
+      if (!wantsSoundRef.current || !a.paused) {
+        removeUnlockListeners();
+        return;
+      }
+
+      try {
+        a.volume = 0;
+        await a.play();
+        setPlaying(true);
+        fadeTo(TARGET_VOL);
+        removeUnlockListeners();
+      } catch {
+        // Browsers may require a user gesture before audible playback.
+      }
+    };
+
     const onCanPlay = () => {
       setReady(true);
       setMissing(false);
     };
     const onError = () => setMissing(true);
+    unlockEvents.forEach((event) =>
+      window.addEventListener(event, startPlayback, { passive: true })
+    );
     a.addEventListener("canplaythrough", onCanPlay);
     a.addEventListener("error", onError);
+    void startPlayback();
+
     return () => {
+      removeUnlockListeners();
       a.removeEventListener("canplaythrough", onCanPlay);
       a.removeEventListener("error", onError);
+      if (fadeRef.current) cancelAnimationFrame(fadeRef.current);
     };
   }, []);
 
   return (
     <>
-      <audio ref={audioRef} src={SRC} loop preload="auto" />
+      <audio ref={audioRef} src={SRC} loop preload="auto" autoPlay playsInline />
 
       <button
         onClick={toggle}
